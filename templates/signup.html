@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Workout Tracker : Sign-Up
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Workout Tracker</h1>
+    <h2>Sign-Up</h2>
+    <!-- Form for signing up -->
+    <form action = "/auth/createuser" method="post">
+        <!-- username input field -->
+        <div>
+            <label for="username">Username:</label>
+            <input name="username" id="username" type="text" required maxlength = "15"/>
+        </div>
+        <!-- password input field, masked for security -->
+        <div>
+            <label for="password">Password:</label>
+            <input name="password" id="password" type="password" required minlength = "5"/>
+        </div>
+        <!-- password confirmation field, also masked for security -->
+        <div>
+            <label for="repassword">Confirm Password:</label>
+            <input name="repassword" id="repassword" type="password" required minlength = "5" />
+        </div>
+        <!-- form submission button  -->
+        <div>
+            <input type = "submit" value = "Sign-Up" />
+        </div>
+    </form>
+    <!-- Link to sign in page for existing users -->
+    <p>Already have an account? <a href = "/">click here to sign-in</a></p>
+</div>
+{% endblock%}
