@@ -19,12 +19,11 @@ class DatabaseHandler:
                          );""")
 
     def createUser(self, username, password):
-        with self.connect() as conn:
-            conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
-            conn.commit()
-
-
-
-
-
+        try:
+            with self.connect() as conn:
+                conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+                conn.commit()
+            return True
+        except:
+            return False
 
