@@ -18,6 +18,7 @@ class DatabaseHandler:
                          password TEXT NOT NULL
                          );""")
 
+    #insert sign up details entered by the user into the database
     def createUser(self, username, password):
         try:
             with self.connect() as conn:
@@ -27,3 +28,16 @@ class DatabaseHandler:
         except:
             return False
 
+    #Checks that the sign in details entered by the user match details in the database
+    def authoriseUser(self, username, password):
+        try:
+            with self.connect() as conn:
+                results = conn.execute("SELECT userID FROM users WHERE username = ? AND password = ?", (username, password))
+                userDetails = results.fetchone()
+                if userDetails != None:
+                    return True
+                else:
+                    return False
+
+        except:
+            return False
