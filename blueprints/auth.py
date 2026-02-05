@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, request, session, url_for
+from flask import Blueprint, flash, redirect, request, session, url_for
 
 from database import DatabaseHandler
 
@@ -30,19 +30,24 @@ def createuser():
     
     #server side username validation
     if username == None:
-        return "failed to create user, you must enter a username"
+        flash("failed to create username, you must enter a username")
+        return redirect(url_for("pages.signup"))
     if len(username)>15:
-        return "faile d to create user, username must be 15 characters or less"
+        flash("failed to create user, username must be 15 characters or less")
+        return redirect(url_for("pages.signup"))
     if not username.isalnum():
-        return "failed to create user, username must only contain letters and numbers"
-    
+        flash("failed to create user, username must only contain letters and numbers")
+        return redirect(url_for("pages.signup"))
     #client side password validation
     if password != repassword:
-        return "failed to create user, passwords do not match"
+        flash("failed to create user, passwords do not match")
+        return redirect(url_for("pages.signup"))
     if len(password)<5:
-        return "failed to create user, passwords must be a minimum of 5 characters"
+        flash("failed to create user, passwords must be a minimum of 5 characters")
+        return redirect(url_for("pages.signup"))
     if password.isalpha() or password.isdigit():
-        return "failed to create user, passwords must be a mixture of letters and numbers"
+        flash("failed to create user, passwords must be a mixture of letters and numbers")
+        return redirect(url_for("pages.signup"))  
 
     #creates user if validation is successful
     else:
@@ -51,7 +56,8 @@ def createuser():
         if success:
             return redirect(url_for("pages.dashboard"))
         else:
-            return "failed to create user, the username is not unique"
+            flash("failed to create user, the username is not unique")
+            return redirect(url_for("pages.signup"))
 
     return redirect(url_for("pages.signup"))
 

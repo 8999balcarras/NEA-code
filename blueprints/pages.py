@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, session, url_for
+from flask import Blueprint, get_flashed_messages, redirect, render_template, session, url_for
 from scripts.isAuthorised import isAuthorised
 
 pages = Blueprint("pages", __name__)
@@ -14,7 +14,9 @@ def signin():
 #runs the signup function when the "/signup" url is visited
 @pages.route("/signup")
 def signup():
-    return render_template("signup.html")
+    messages = get_flashed_messages()
+    return render_template("signup.html", messages = messages)
+
 
 #runs the dashboard function when the "/dashboard" url is visited
 @pages.route("/dashboard")
