@@ -11,4 +11,7 @@ app.secret_key= SECRET_KEY
 app.register_blueprint(pages)
 app.register_blueprint(auth)
 
+db = DatabaseHandler()
+db.createTables()
+
 app.run(debug = True)

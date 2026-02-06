@@ -1,4 +1,5 @@
 import sqlite3 as sql
+from werkzeug.security import check_password_hash, generate_password_hash
 
 #creates a class for database connections
 class DatabaseHandler:
@@ -21,8 +22,9 @@ class DatabaseHandler:
     #insert sign up details entered by the user into the database
     def createUser(self, username, password):
         try:
+            hashed_password = generate_password_hash(password)
             with self.connect() as conn:
-                conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+                conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
                 conn.commit()
             return True
         except:
@@ -32,12 +34,8 @@ class DatabaseHandler:
     def authoriseUser(self, username, password):
         try:
             with self.connect() as conn:
-                results = conn.execute("SELECT userID FROM users WHERE username = ? AND password = ?", (username, password))
-                userDetails = results.fetchone()
-                if userDetails != None:
-                    return True
-                else:
-                    return False
-
+                results = conn.execute("SELECT password FROM users WHERE username = ?", (username, ))
+                stored_hash = results.fetchone()[0]
+                return check_password_hash(stored_hash, password)
         except:
             return False
