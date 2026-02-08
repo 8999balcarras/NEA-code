@@ -18,6 +18,7 @@ def authoriseuser():
         session["currentUser"] = username
         return redirect(url_for("pages.dashboard"))
     else:
+        flash("sign in unsuccessful")
         return redirect(url_for("pages.signin"))
 
 
