@@ -25,6 +25,10 @@ Workout Tracker : Sign-in
             <input type = "submit" value = "Sign-In" />
         </div>
     </form>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
     <!-- Link to registration page for new users -->
     <p>No account? <a href = "/signup">click here to sign-up</a></p>
 </div>

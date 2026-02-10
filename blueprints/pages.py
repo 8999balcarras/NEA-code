@@ -8,8 +8,9 @@ pages = Blueprint("pages", __name__)
 def signin():
     if isAuthorised():
         return redirect(url_for("pages.dashboard"))
-    #connects the route to the template
-    return render_template("signin.html")
+    #flashes the error message if signin is unsuccessful
+    messages = get_flashed_messages()
+    return render_template("signin.html", messages = messages)
 
 #runs the signup function when the "/signup" url is visited
 @pages.route("/signup")
