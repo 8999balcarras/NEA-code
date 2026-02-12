@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Page title block that can be overwritten by child templates-->
     <title>{% block title %}Workout Tracker{% endblock %}</title>
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/colourScheme.css') }}">
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/global.css') }}">
     <!-- Head block for page specific CSS -->
     {% block head %}{% endblock %}
 </head>

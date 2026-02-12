@@ -4,21 +4,25 @@
 Workout Tracker : Sign-in
 {% endblock %}
 
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/signinandup.css') }}">
+{% endblock%}
+
 {% block content %}
-<div>
-    <h1>Workout Tracker</h1>
+<div class = "container">
+    <h1 class = "title">Workout Tracker</h1>
     <h2>Sign-In</h2>
     <!-- User sign in form -->
     <form action = "/auth/authoriseuser" method = "POST">
         <!-- Username input field -->
         <div>
-            <label for="username">Username:</label>
-            <input name="username" id="username" type="text" />
+            <!-- <label for="username">Username:</label> -->
+            <input name="username" id="username" type="text" placeholder = "Enter Username" />
         </div>
         <!-- Password input field, masked for security -->
         <div>
-            <label for="password">Password:</label>
-            <input name="password" id="password" type="password" />
+            <!-- <label for="password">Password:</label> -->
+            <input name="password" id="password" type="password" placeholder = "Enter Password"/>
         </div>
         <!-- Form submission button-->
         <div>
@@ -27,7 +31,7 @@ Workout Tracker : Sign-in
     </form>
 
     {% for message in messages %}
-        <p>{{ message }}</p>
+        <p class = "error">{{ message }}</p>
     {% endfor %}
     <!-- Link to registration page for new users -->
     <p>No account? <a href = "/signup">click here to sign-up</a></p>

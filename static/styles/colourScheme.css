@@ -1,0 +1,11 @@
+:root{
+    --main-bg-colour: #f3f3f3;
+    --main-fg-colour: #000000;
+    --secondary-bg-colour: #ffffff;
+    --secondary-fg-colour: #000000;
+    --button-colour: #e3e3e3;
+    --button-colour-hover: #bed0e6;
+    --border-colour: #000000;
+    --error-message-colour: #a82626;
+}
+

@@ -4,26 +4,30 @@
 Workout Tracker : Sign-Up
 {% endblock %}
 
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/signinandup.css') }}">
+{% endblock%}
+
 {% block content %}
-<div>
-    <h1>Workout Tracker</h1>
+<div class = "container">
+    <h1 class = "title">Workout Tracker</h1>
     <h2>Sign-Up</h2>
     <!-- Form for signing up -->
     <form action = "/auth/createuser" method="post">
         <!-- username input field -->
         <div>
-            <label for="username">Username:</label>
-            <input name="username" id="username" type="text" required maxlength = "15"/>
+            <!-- <label for="username">Username:</label> -->
+            <input name="username" id="username" type="text" required maxlength = "15" placeholder = "Enter Username"/>
         </div>
         <!-- password input field, masked for security -->
         <div>
-            <label for="password">Password:</label>
-            <input name="password" id="password" type="password" required minlength = "5"/>
+            <!-- <label for="password">Password:</label> -->
+            <input name="password" id="password" type="password" required minlength = "5" placeholder = "Enter Password"/>
         </div>
         <!-- password confirmation field, also masked for security -->
         <div>
-            <label for="repassword">Confirm Password:</label>
-            <input name="repassword" id="repassword" type="password" required minlength = "5" />
+            <!-- <label for="repassword">Confirm Password:</label> -->
+            <input name="repassword" id="repassword" type="password" required minlength = "5" placeholder = "Confirm Password" />
         </div>
         <!-- form submission button  -->
         <div>
@@ -32,7 +36,7 @@ Workout Tracker : Sign-Up
     </form>
 
     {% for message in messages%}
-        <p>{{ message }}</p>
+        <p class = "error">{{ message }}</p>
     {% endfor %}
     <!-- Link to sign in page for existing users -->
     <p>Already have an account? <a href = "/">click here to sign-in</a></p>
