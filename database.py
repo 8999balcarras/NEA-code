@@ -18,6 +18,8 @@ class DatabaseHandler:
                          username TEXT NOT NULL UNIQUE,
                          password TEXT NOT NULL
                          );""")
+            
+    
 
     #inserts user details into users database
     def createUser(self, username, password):
@@ -26,7 +28,7 @@ class DatabaseHandler:
             hashed_password = generate_password_hash(password)
             with self.connect() as conn:
                 #inserts the username and hashed password into the database
-                conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
+                conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username.lower(), hashed_password))
                 conn.commit()
             return True
         except:
@@ -37,7 +39,7 @@ class DatabaseHandler:
         try:
             with self.connect() as conn:
                 #checks that the password entered matches the stored hashed password
-                results = conn.execute("SELECT password FROM users WHERE username = ?", (username, ))
+                results = conn.execute("SELECT password FROM users WHERE username = ?", (username.lower(), ))
                 stored_hash = results.fetchone()[0]
                 return check_password_hash(stored_hash, password)
         except:

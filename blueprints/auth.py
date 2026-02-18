@@ -36,6 +36,9 @@ def createuser():
     if len(username)>15:
         flash("failed to create user, username must be 15 characters or less")
         return redirect(url_for("pages.signup"))
+    if len(username) == 0:
+        flash("failed to create user, username must not be left blank")
+        return redirect(url_for("pages.signup"))
     if not username.isalnum():
         flash("failed to create user, username must only contain letters and numbers")
         return redirect(url_for("pages.signup"))
