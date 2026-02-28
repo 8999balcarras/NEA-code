@@ -13,5 +13,6 @@ app.register_blueprint(auth)
 
 db = DatabaseHandler()
 db.createTables()
+db.populateExercises()
 
 app.run(debug = True)
