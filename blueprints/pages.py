@@ -30,10 +30,18 @@ def dashboard():
 
 @pages.route("/workout_templates")
 def workout_templates():
+    #signs out the user if they are not authorised
     if not isAuthorised():
         return redirect(url_for("pages.signin"))
+    
+    #retrieves the user's templates to be displayed
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    templates = db.getUserTemplates(userID)
+
+    #renders the workout templates page with the user's templates
     currentUser = session["currentUser"]
-    return render_template("workout_templates.html", currentUser = currentUser)
+    return render_template("workout_templates.html", currentUser = currentUser, templates = templates)
 
 #handles the create template page and saving the template 
 @pages.route("/create_template", methods=["GET", "POST"])
@@ -52,5 +60,3 @@ def create_template():
 
         return redirect(url_for("pages.workout_templates"))
     return render_template('create_template.html', exercises=exercises)
-
-Z

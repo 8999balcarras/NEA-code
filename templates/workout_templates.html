@@ -7,6 +7,13 @@
 {% block content %}
     <h1>Welcome {{ currentUser }}</h1>
     <h2>workout templates</h2>
+    <!-- lists the templates that the user has created -->
+    <ul>
+        {% for t in templates %}
+            <li>{{ t[1] }}</li>
+        {% endfor %}
+    </ul>
     <a href="{{ url_for('pages.create_template') }}"><button type="button">Create New Template</button></a>
+    <div><a href = "{{ url_for('pages.dashboard') }}">Back to Dashboard</a></div>
 {% endblock%}
 

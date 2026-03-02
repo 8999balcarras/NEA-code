@@ -122,3 +122,7 @@ class DatabaseHandler:
                 conn.execute("INSERT INTO templateExercises (templateID, exerciseID, exerciseOrder) VALUES (?, ?, ?)", (templateID, exerciseID, order))
                 order += 1
             conn.commit()
+
+    def getUserTemplates(self, userID):
+        with self.connect() as conn:
+            return conn.execute("SELECT templateID, templateName FROM templates WHERE userID = ?", (userID,)).fetchall()
