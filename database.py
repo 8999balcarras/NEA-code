@@ -126,3 +126,23 @@ class DatabaseHandler:
     def getUserTemplates(self, userID):
         with self.connect() as conn:
             return conn.execute("SELECT templateID, templateName FROM templates WHERE userID = ?", (userID,)).fetchall()
+        
+    def getTemplateExercises(self, templateID):
+        with self.connect() as conn:
+            return conn.execute("""SELECT e.exerciseID, e.exerciseName, te.exerciseOrder 
+                                FROM exercises e 
+                                JOIN templateExercises te ON e.exerciseID = te.exerciseID 
+                                WHERE te.templateID = ? 
+                                ORDER BY te.exerciseOrder""", (templateID,)).fetchall()
+        
+    def createWorkout(self, userID, templateID, workoutDate, workoutTime, notes):
+        with self.connect() as conn:
+            cursor = conn.execute("INSERT INTO workouts (userID, templateID, workoutDate, workoutTime, notes) VALUES (?, ?, ?, ?, ?)", (userID, templateID, workoutDate, workoutTime, notes))
+            conn.commit()
+            return cursor.lastrowid
+    
+    def addWorkoutData(self, workoutID, exerciseID, setNumber, weight, reps):
+        with self.connect() as conn:
+            conn.execute("INSERT INTO workoutData (workoutID, exerciseID, setNumber, weight, reps) VALUES (?, ?, ?, ?, ?)", (workoutID, exerciseID, setNumber, weight, reps))
+            conn.commit()
+            
