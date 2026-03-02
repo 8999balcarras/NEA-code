@@ -7,7 +7,8 @@
 {% block content %}
     <h1>Welcome {{ currentUser }}</h1>
     <h2>Dashboard</h2>
-    <a href = "auth/signout">Sign out</a>
     <a href = "{{ url_for('pages.workout_templates') }}">Workout Templates</a>
+    <a href = "{{ url_for('pages.log_workout') }}">Log Workout</a>
+    <a href = "auth/signout">Sign out</a>
 {% endblock%}
 

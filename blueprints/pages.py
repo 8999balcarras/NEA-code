@@ -60,3 +60,12 @@ def create_template():
 
         return redirect(url_for("pages.workout_templates"))
     return render_template('create_template.html', exercises=exercises)
+
+@pages.route("/log_workout")
+def log_workout():
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
+    currentUser = session["currentUser"]
+    return render_template("log_workout.html", currentUser = currentUser)
+
+
