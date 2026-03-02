@@ -16,3 +16,4 @@ db.createTables()
 db.populateExercises()
 
 app.run(debug = True)
+

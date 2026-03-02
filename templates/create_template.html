@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Create Template{% endblock %}
+
+{% block content %}
+<h1>Create new template</h1>
+
+<form method="POST" id="templateForm">
+  <!--template name is entered here -->
+  <input name="templateName" id="templateName" type="text" placeholder="Enter Template Name">
+
+  <p>Add exercise:</p>
+
+  <!-- displays exercises in  a drop down menu -->
+  <select id="exerciseSelect">
+    <option value="">Pick an exercise...</option>
+    {% for e in exercises %}
+      <option value="{{ e[0] }}">{{ e[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <!-- adds the selected exercise to the list -->
+  <button type="button" id="addBtn">+</button>
+
+  <ol id="chosenList"></ol>
+
+  <div id="hiddenInputs"></div>
+
+  <button type="submit">Save</button>
+</form>
+
+<script>
+  // retrieves the HTML elements so they can be used
+  const select = document.getElementById("exerciseSelect");
+  const addBtn = document.getElementById("addBtn");
+  const chosenList = document.getElementById("chosenList");
+  const hiddenInputs = document.getElementById("hiddenInputs");
+
+  // runs on button press
+  addBtn.addEventListener("click", () => {
+    if (select.value === "") return;
+    
+    // the exercise they select is added to the list of chosen exercises
+    const li = document.createElement("li");
+    li.textContent = select.options[select.selectedIndex].text;
+    chosenList.appendChild(li);
+
+    // hidden input is created to be sent with the form to create the template
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "exerciseIDs";
+    hidden.value = select.value;
+    hiddenInputs.appendChild(hidden);
+
+    // resets the drop down menu
+    select.value = "";
+  });
+</script>
+
+{% endblock %}

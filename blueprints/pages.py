@@ -1,5 +1,6 @@
-from flask import Blueprint, get_flashed_messages, redirect, render_template, session, url_for
+from flask import Blueprint, get_flashed_messages, redirect, render_template, session, url_for, request
 from scripts.isAuthorised import isAuthorised
+from database import DatabaseHandler
 
 pages = Blueprint("pages", __name__)
 
@@ -26,3 +27,30 @@ def dashboard():
         return redirect(url_for("pages.signin"))
     currentUser = session["currentUser"]
     return render_template("dashboard.html", currentUser = currentUser)
+
+@pages.route("/workout_templates")
+def workout_templates():
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
+    currentUser = session["currentUser"]
+    return render_template("workout_templates.html", currentUser = currentUser)
+
+#handles the create template page and saving the template 
+@pages.route("/create_template", methods=["GET", "POST"])
+def create_template():
+    db = DatabaseHandler()
+    exercises = db.getExercises()
+
+    #if the user submits the form, the template is created and the user is redirected
+    if request.method == "POST":
+        formDetails = request.form
+        templateName = formDetails.get("templateName")
+        exerciseIDs = formDetails.getlist("exerciseIDs")
+        userID = db.getUserID(session["currentUser"])
+        templateID = db.createTemplate(templateName, userID)
+        db.addExercisesToTemplate(templateID, exerciseIDs)
+
+        return redirect(url_for("pages.workout_templates"))
+    return render_template('create_template.html', exercises=exercises)
+
+Z

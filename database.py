@@ -100,4 +100,25 @@ class DatabaseHandler:
             for exercise in defaultExercises:
                 conn.execute("INSERT OR IGNORE INTO exercises (exerciseName, muscleGroup, description) VALUES (?, ?, ?)", exercise)
 
+    def getExercises(self):
+        with self.connect() as conn:
+            return conn.execute("SELECT exerciseID, exerciseName FROM exercises ORDER BY exerciseName").fetchall()
 
+    def getUserID(self, username):
+        with self.connect() as conn:
+            row = conn.execute("SELECT userID FROM users WHERE username = ?",(username,)).fetchone()
+            return row[0] 
+        
+    def createTemplate(self, templateName, userID):
+        with self.connect() as conn:
+            cursor = conn.execute("INSERT INTO templates (templateName, userID) VALUES (?, ?)",(templateName, userID))
+            conn.commit()
+            return cursor.lastrowid
+        
+    def addExercisesToTemplate(self, templateID, exerciseIDs):
+        with self.connect() as conn:
+            order = 1
+            for exerciseID in exerciseIDs:
+                conn.execute("INSERT INTO templateExercises (templateID, exerciseID, exerciseOrder) VALUES (?, ?, ?)", (templateID, exerciseID, order))
+                order += 1
+            conn.commit()

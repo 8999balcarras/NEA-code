@@ -8,5 +8,6 @@
     <h1>Welcome {{ currentUser }}</h1>
     <h2>Dashboard</h2>
     <a href = "auth/signout">Sign out</a>
+    <a href = "{{ url_for('pages.workout_templates') }}">Workout Templates</a>
 {% endblock%}
 
