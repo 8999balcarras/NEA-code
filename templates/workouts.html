@@ -6,7 +6,14 @@
 
 {% block content %}
     <h1>Welcome {{ currentUser }}</h1>
-    <h2>Workouts</h2>
+    <h2>Select a template to log a workout</h2>
+
+    <ul>
+        {% for t in templates %}
+            <li><a href="{{ url_for('pages.log_workout', templateID = t[0]) }}">{{ t[1] }}</a></li>
+        {% endfor %}
+    </ul>
+    
     <div><a href = "{{ url_for('pages.dashboard') }}">Back to Dashboard</a></div>
 {% endblock%}
 
