@@ -110,5 +110,16 @@ def log_workout(templateID):
 
     return render_template("log_workout.html", exercises=exercises)
 
+@pages.route("/workout_history")
+def workout_history():
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
 
+    # retrieves the user's workout history to be displayed on the workout history page
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    workouts = db.getUserWorkouts(userID)
+
+    currentUser = session["currentUser"]
+    return render_template("workout_history.html", currentUser = currentUser, workouts = workouts)
 

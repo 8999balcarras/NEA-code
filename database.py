@@ -2,6 +2,7 @@ from exerciselist import defaultExercises
 import sqlite3 as sql
 from werkzeug.security import check_password_hash, generate_password_hash
 
+
 #creates a class for database connections
 class DatabaseHandler:
     def __init__(self, dbName = "appData.db"):
@@ -146,3 +147,11 @@ class DatabaseHandler:
             conn.execute("INSERT INTO workoutData (workoutID, exerciseID, setNumber, weight, reps) VALUES (?, ?, ?, ?, ?)", (workoutID, exerciseID, setNumber, weight, reps))
             conn.commit()
             
+    def getUserWorkouts(self, userID):
+        # selects all workouts for the user, displaying the template name, date and time of the workout
+        with self.connect() as conn:
+            return conn.execute("""SELECT w.workoutID, t.templateName, w.workoutDate, w.workoutTime 
+                                FROM workouts w 
+                                JOIN templates t ON w.templateID = t.templateID 
+                                WHERE w.userID = ? 
+                                ORDER BY w.workoutDate DESC, w.workoutTime DESC""", (userID,)).fetchall()
