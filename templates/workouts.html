@@ -8,6 +8,7 @@
     <h1>Welcome {{ currentUser }}</h1>
     <h2>Select a template to log a workout</h2>
 
+    <!-- uses a loop to display each template for the user to click on -->
     <ul>
         {% for t in templates %}
             <li><a href="{{ url_for('pages.log_workout', templateID = t[0]) }}">{{ t[1] }}</a></li>

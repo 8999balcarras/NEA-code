@@ -1,6 +1,7 @@
 from flask import Blueprint, get_flashed_messages, redirect, render_template, session, url_for, request
 from scripts.isAuthorised import isAuthorised
 from database import DatabaseHandler
+from datetime import datetime
 
 pages = Blueprint("pages", __name__)
 
@@ -65,7 +66,49 @@ def create_template():
 def workouts():
     if not isAuthorised():
         return redirect(url_for("pages.signin"))
+    
+    # retrieves the user's workout templates to be displayed on the workouts page
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    templates = db.getUserTemplates(userID)
+
     currentUser = session["currentUser"]
-    return render_template("workouts.html", currentUser = currentUser)
+    return render_template("workouts.html", currentUser = currentUser, templates = templates)
+
+@pages.route("/log_workout/<int:templateID>", methods=["GET", "POST"])
+def log_workout(templateID):
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
+
+    #retrieves userID and exercises for the selected template 
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    exercises = db.getTemplateExercises(templateID)
+
+    # if the user submits the form the workout data is saved 
+    if request.method == "POST":
+        notes = request.form.get("notes", "")
+
+        # gets the current date and time to be stored with the workout data
+        now = datetime.now()
+        workoutDate = now.strftime("%Y-%m-%d")
+        workoutTime = now.strftime("%H:%M:%S")
+
+        # creates the workout and retrieves the workoutID and for saving each exercise
+        workoutID = db.createWorkout(userID, templateID, workoutDate, workoutTime, notes)
+
+        # saves the weight and reps for each exercise in the workout
+        for exercise in exercises:
+            exerciseID = exercise[0]
+            order = exercise[2]
+            weight = request.form.get("weight_" + str(order), "")
+            reps = request.form.get("reps_" + str(order), "")
+
+            db.addWorkoutData(workoutID, exerciseID, order, float(weight), int(reps))
+                    
+        return redirect(url_for("pages.workouts"))
+
+    return render_template("log_workout.html", exercises=exercises)
+
 
 
