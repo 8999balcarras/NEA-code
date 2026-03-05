@@ -8,7 +8,7 @@ Workout Tracker : Create Template
 
 <form method="POST" id="templateForm">
   <!--template name is entered here -->
-  <input name="templateName" id="templateName" type="text" placeholder="Enter Template Name">
+  <input name="templateName" id="templateName" type="text" placeholder="Enter Template Name" required minlength = "1" maxlength = "30"/>
 
   <p>Add exercise:</p>
 
@@ -29,6 +29,9 @@ Workout Tracker : Create Template
 
   <button type="submit">Save</button>
 </form>
+{% for message in messages%}
+  <p class = "error">{{ message }}</p>
+{% endfor %}
 
 <script>
   // retrieves the HTML elements so they can be used

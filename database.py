@@ -70,6 +70,7 @@ class DatabaseHandler:
                         FOREIGN KEY (workoutID) REFERENCES workouts(workoutID), 
                         FOREIGN KEY (exerciseID) REFERENCES exercises(exerciseID)
                         );""")
+                        
 
     #inserts user details into users database
     def createUser(self, username, password):
@@ -155,3 +156,11 @@ class DatabaseHandler:
                                 JOIN templates t ON w.templateID = t.templateID 
                                 WHERE w.userID = ? 
                                 ORDER BY w.workoutDate DESC, w.workoutTime DESC""", (userID,)).fetchall()
+    
+    def templateNameExists(self, templateName, userID):
+        with self.connect() as conn:
+            row = conn.execute("SELECT templateID FROM templates WHERE LOWER(templateName) = ? AND userID = ?", (templateName.lower(), userID)).fetchone()
+            return row is not None
+        
+
+        

@@ -1,4 +1,4 @@
-from flask import Blueprint, get_flashed_messages, redirect, render_template, session, url_for, request
+from flask import Blueprint, get_flashed_messages, redirect, render_template, session, url_for, request, flash
 from scripts.isAuthorised import isAuthorised
 from database import DatabaseHandler
 from datetime import datetime
@@ -56,11 +56,27 @@ def create_template():
         templateName = formDetails.get("templateName")
         exerciseIDs = formDetails.getlist("exerciseIDs")
         userID = db.getUserID(session["currentUser"])
+
+        # validation for the template creation
+        if db.templateNameExists(templateName, userID):
+            flash("failed to create template, template name already exists")
+            return redirect(url_for("pages.create_template"))
+        if templateName == None or len(templateName) == 0:
+            flash("failed to create template, template name must not be left blank")
+            return redirect(url_for("pages.create_template"))
+        if len(templateName)>30:
+            flash("failed to create template, template name must be 30 characters or less")
+            return redirect(url_for("pages.create_template"))
+        if len(exerciseIDs) == 0:
+            flash("failed to create template, at least one exercise must be selected")
+            return redirect(url_for("pages.create_template"))
+        
         templateID = db.createTemplate(templateName, userID)
         db.addExercisesToTemplate(templateID, exerciseIDs)
-
         return redirect(url_for("pages.workout_templates"))
-    return render_template('create_template.html', exercises=exercises)
+    
+    messages = get_flashed_messages()
+    return render_template('create_template.html', exercises=exercises, messages = messages)
 
 @pages.route("/workouts")
 def workouts():
@@ -94,9 +110,6 @@ def log_workout(templateID):
         workoutDate = now.strftime("%Y-%m-%d")
         workoutTime = now.strftime("%H:%M:%S")
 
-        # creates the workout and retrieves the workoutID and for saving each exercise
-        workoutID = db.createWorkout(userID, templateID, workoutDate, workoutTime, notes)
-
         # saves the weight and reps for each exercise in the workout
         for exercise in exercises:
             exerciseID = exercise[0]
@@ -104,11 +117,32 @@ def log_workout(templateID):
             weight = request.form.get("weight_" + str(order), "")
             reps = request.form.get("reps_" + str(order), "")
 
+            # validation for the workout logging
+            if reps == "":
+                flash("failed to log workout, reps must not be left blank")
+                return redirect(url_for("pages.log_workout", templateID=templateID))
+            try:
+                int(reps)
+            except:
+                flash("failed to log workout, reps must be a whole number")
+                return redirect(url_for("pages.log_workout", templateID=templateID))
+            if int(reps) > 100:
+                flash("failed to log workout, reps must be 100 or less")
+                return redirect(url_for("pages.log_workout", templateID=templateID))
+            if weight == "" or int(weight) < 0:
+                weight = 0
+            if int(weight) > 1000:
+                flash("failed to log workout, weight must be 1000 or less")
+                return redirect(url_for("pages.log_workout", templateID=templateID))
+            
+            # creates the workout and retrieves the workoutID and for saving each exercise
+            workoutID = db.createWorkout(userID, templateID, workoutDate, workoutTime, notes)
             db.addWorkoutData(workoutID, exerciseID, order, float(weight), int(reps))
-                    
+           
         return redirect(url_for("pages.workouts"))
 
-    return render_template("log_workout.html", exercises=exercises)
+    messages = get_flashed_messages()
+    return render_template("log_workout.html", exercises = exercises, messages = messages)
 
 @pages.route("/workout_history")
 def workout_history():
