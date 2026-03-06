@@ -110,6 +110,9 @@ def log_workout(templateID):
         workoutDate = now.strftime("%Y-%m-%d")
         workoutTime = now.strftime("%H:%M:%S")
 
+        #creates an empty list to temporarily store workout data for each exercise
+        workoutRows = []
+
         # saves the weight and reps for each exercise in the workout
         for exercise in exercises:
             exerciseID = exercise[0]
@@ -126,6 +129,9 @@ def log_workout(templateID):
             except:
                 flash("failed to log workout, reps must be a whole number")
                 return redirect(url_for("pages.log_workout", templateID=templateID))
+            if int(reps) < 1:
+                flash("failed to log workout, reps must be at least 1")
+                return redirect(url_for("pages.log_workout", templateID=templateID))
             if int(reps) > 100:
                 flash("failed to log workout, reps must be 100 or less")
                 return redirect(url_for("pages.log_workout", templateID=templateID))
@@ -135,8 +141,12 @@ def log_workout(templateID):
                 flash("failed to log workout, weight must be 1000 or less")
                 return redirect(url_for("pages.log_workout", templateID=templateID))
             
-            # creates the workout and retrieves the workoutID and for saving each exercise
-            workoutID = db.createWorkout(userID, templateID, workoutDate, workoutTime, notes)
+            workoutRows.append((exerciseID, order, weight, reps))
+        
+        workoutID = db.createWorkout(userID, templateID, workoutDate, workoutTime, notes)
+           
+        # adds the workout data for each exercise in the workout to the database
+        for exerciseID, order, weight, reps in workoutRows:
             db.addWorkoutData(workoutID, exerciseID, order, float(weight), int(reps))
            
         return redirect(url_for("pages.workout_history"))
