@@ -1,37 +1,3 @@
-.default{
-    background-color: var(--secondary-bg-colour);
-    display: flex;
-    width: 80%;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-}
-
-.title{
-    font-size: 45px;
-}
-
-form{
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-input{
-    padding: 5px;
-    border-color: var(--border-colour);
-    border-radius: 3px
-}
-
-input[type="submit"]{
-    background-color: var(--button-colour);
-    color: var(--button-text-colour);
-}
-
-input[type="submit"]:hover{
-    background-color: var(--button-colour-hover);
-}
 
 .error{
     font-family: 'Courier New', Courier, monospace;

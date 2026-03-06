@@ -139,7 +139,7 @@ def log_workout(templateID):
             workoutID = db.createWorkout(userID, templateID, workoutDate, workoutTime, notes)
             db.addWorkoutData(workoutID, exerciseID, order, float(weight), int(reps))
            
-        return redirect(url_for("pages.workouts"))
+        return redirect(url_for("pages.workout_history"))
 
     messages = get_flashed_messages()
     return render_template("log_workout.html", exercises = exercises, messages = messages)
