@@ -4,6 +4,10 @@
     Workout Tracker : Templates
 {% endblock %}
 
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/workoutstyles.css') }}">
+{% endblock%}
+
 {% block content %}
     <h1>Welcome {{ currentUser }}</h1>
     <h2>workout templates</h2>
@@ -11,6 +15,10 @@
     <ul>
         {% for t in templates %}
             <li>{{ t[1] }}</li>
+            <!-- delete template button  -->
+            <form action="{{ url_for('pages.delete_template', templateID = t[0]) }}" method="POST">
+                <button type="submit">Delete</button>
+            </form>
         {% endfor %}
     </ul>
     <a href="{{ url_for('pages.create_template') }}"><button type="button">Create New Template</button></a>

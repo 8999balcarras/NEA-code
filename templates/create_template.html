@@ -3,6 +3,10 @@
 Workout Tracker : Create Template
 {% endblock %}
 
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/workoutstyles.css') }}">
+{% endblock%}
+
 {% block content %}
 <h1>Create new template</h1>
 

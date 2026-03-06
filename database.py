@@ -162,5 +162,10 @@ class DatabaseHandler:
             row = conn.execute("SELECT templateID FROM templates WHERE LOWER(templateName) = ? AND userID = ?", (templateName.lower(), userID)).fetchone()
             return row is not None
         
+    def deleteTemplate(self, templateID):
+        with self.connect() as conn:
+            conn.execute("DELETE FROM templates WHERE templateID = ?", (templateID,))
+            conn.execute("DELETE FROM templateExercises WHERE templateID = ?", (templateID,))
+            conn.commit()
 
         

@@ -4,6 +4,10 @@
 Workout Tracker : Workout History
 {% endblock %}
 
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/workoutstyles.css') }}">
+{% endblock%}
+
 {% block content %}
     <h1>Welcome {{ currentUser }}</h1>
     <h2>Workout History</h2>

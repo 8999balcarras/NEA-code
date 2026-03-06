@@ -157,3 +157,12 @@ def workout_history():
     currentUser = session["currentUser"]
     return render_template("workout_history.html", currentUser = currentUser, workouts = workouts)
 
+@pages.route("/delete_template/<int:templateID>", methods=["POST"])
+def delete_template(templateID):
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
+    
+    #deletes the template and redirects to workout templates page
+    db = DatabaseHandler()
+    db.deleteTemplate(templateID)
+    return redirect(url_for("pages.workout_templates"))
