@@ -135,7 +135,7 @@ def log_workout(templateID):
             if int(reps) > 100:
                 flash("failed to log workout, reps must be 100 or less")
                 return redirect(url_for("pages.log_workout", templateID=templateID))
-            if weight == "" or int(weight) < 0:
+            if weight == "" or float(weight) < 0:
                 weight = 0
             else:
                 try:
