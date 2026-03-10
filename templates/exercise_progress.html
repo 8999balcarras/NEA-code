@@ -12,8 +12,10 @@ Workout Tracker : {{ exerciseName }} Progress
 {% block content %}
     <h1>{{ exerciseName }} Progress</h1>
 
-    <!--  -->
-    <canvas id="progressChart" width="700" height="350"></canvas>
+    <!-- defines the area where the chart will be drawn -->
+    <div style="width: 60%; height: 60%;">
+        <canvas id="progressChart"></canvas>
+    </div>
 
     <script>
         // converts the the dates into JSON format so that javascript can read it
@@ -31,10 +33,12 @@ Workout Tracker : {{ exerciseName }} Progress
                 datasets: [{
                     label: "Highest weight lifted each workout",
                     data: weights,
+                    tension: 0.25
                 }]
             },
             // customisation for the axes
             options: {
+                responsive: true,
                 scales: {
                     x: {
                         title: {
