@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+Workout Tracker : {{ exerciseName }} Progress
+{% endblock %}
+
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/workoutstyles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock%}
+
+{% block content %}
+    <h1>{{ exerciseName }} Progress</h1>
+
+    <!--  -->
+    <canvas id="progressChart" width="700" height="350"></canvas>
+
+    <script>
+        // converts the the dates into JSON format so that javascript can read it
+        const dates = {{ dates | tojson }};
+        const weights = {{ weights | tojson }};
+
+        // assigns the canvas to a variable
+        const progressChart = document.getElementById("progressChart");
+
+        // creats the line chart using chart.js
+        new Chart(progressChart, {
+            type: "line",
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: "Highest weight lifted each workout",
+                    data: weights,
+                }]
+            },
+            // customisation for the axes
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Date"
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Weight"
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <a href="{{ url_for('pages.progress_list') }}">Back to Exercise List</a>
+{% endblock %}
+
