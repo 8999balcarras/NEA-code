@@ -108,7 +108,7 @@ class DatabaseHandler:
 
     def getUserID(self, username):
         with self.connect() as conn:
-            row = conn.execute("SELECT userID FROM users WHERE username = ?",(username,)).fetchone()
+            row = conn.execute("SELECT userID FROM users WHERE username = ?",(username.lower(),)).fetchone()
             return row[0] 
         
     def createTemplate(self, templateName, userID):
@@ -168,4 +168,31 @@ class DatabaseHandler:
             conn.execute("DELETE FROM templateExercises WHERE templateID = ?", (templateID,))
             conn.commit()
 
+    def getExercisesWithWorkoutData(self, userID):
+        # selects all exercises that the user has recorded workout data for, to be displayed on the exercise progress page
+        with self.connect() as conn:
+            return conn.execute("""SELECT DISTINCT e.exerciseID, e.exerciseName 
+                                FROM exercises e 
+                                JOIN workoutData wd ON e.exerciseID = wd.exerciseID 
+                                JOIN workouts w ON wd.workoutID = w.workoutID
+                                WHERE w.userID = ? 
+                                ORDER BY e.exerciseName""", (userID,)).fetchall()
         
+    def getExerciseName(self, exerciseID):
+        # retrieves the name of an exercise to display on the exercise progress page
+        with self.connect() as conn:
+            row = conn.execute("SELECT exerciseName FROM exercises WHERE exerciseID = ?", (exerciseID,)).fetchone()
+            return row[0] if row else None
+        
+    def getExerciseProgress(self, userID, exerciseID):
+        # retreives the weight and the date of each workout where the user logged data for the exercise
+        with self.connect() as conn:
+            return conn.execute("""
+                                SELECT w.workoutDate, MAX(wd.weight) as maxWeight
+                                FROM workouts w
+                                JOIN workoutData wd ON w.workoutID = wd.workoutID
+                                WHERE w.userID = ? AND wd.exerciseID = ?
+                                GROUP BY w.workoutID, w.workoutDate
+                                ORDER BY w.workoutDate, w.workoutID
+                                """, (userID, exerciseID)).fetchall()
+    

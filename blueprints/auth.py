@@ -15,7 +15,7 @@ def authoriseuser():
     db = DatabaseHandler()
     success = db.authoriseUser(username, password)
     if success:
-        session["currentUser"] = username
+        session["currentUser"] = username.lower()
         return redirect(url_for("pages.dashboard"))
     else:
         flash("sign in unsuccessful")

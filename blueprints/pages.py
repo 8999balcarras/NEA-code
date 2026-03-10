@@ -137,7 +137,15 @@ def log_workout(templateID):
                 return redirect(url_for("pages.log_workout", templateID=templateID))
             if weight == "" or int(weight) < 0:
                 weight = 0
-            if int(weight) > 1000:
+            else:
+                try:
+                    weight = float(weight)
+                except:
+                    flash("failed to log workout, weight must be a number")
+                    return redirect(url_for("pages.log_workout", templateID=templateID))
+                if weight < 0:
+                    weight = 0
+            if weight > 1000:
                 flash("failed to log workout, weight must be 1000 or less")
                 return redirect(url_for("pages.log_workout", templateID=templateID))
             
@@ -176,3 +184,45 @@ def delete_template(templateID):
     db = DatabaseHandler()
     db.deleteTemplate(templateID)
     return redirect(url_for("pages.workout_templates"))
+
+@pages.route("/progress")
+def progress_list():
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
+    
+    # retrieves the user's workout history to be displayed on the exercise progress page
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    exercises = db.getExercisesWithWorkoutData(userID)
+
+    messages = get_flashed_messages()
+    currentUser = session["currentUser"]
+    return render_template("progress_list.html", currentUser = currentUser, exercises = exercises, messages = messages)
+
+@pages.route("/progress/<int:exerciseID>")
+def exercise_progress(exerciseID):
+    if not isAuthorised():
+        return redirect(url_for("pages.signin"))
+
+    # retreives the workout data and the exercise name for the exercise
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    progressRows = db.getExerciseProgress(userID, exerciseID)
+    exerciseName = db.getExerciseName(exerciseID)
+
+    # returns error message if there is no data for the exercise
+    if exerciseName is None or len(progressRows) == 0:
+        flash("no progress data found for that exercise")
+        return redirect(url_for("pages.progress_list"))
+
+    dates = []
+    weights = []
+    
+    # adds the date and weight to the lists to be passed into chart.js
+    for row in progressRows:
+        dates.append(row[0])
+        weights.append(row[1])
+
+    currentUser = session["currentUser"]
+    return render_template("exercise_progress.html", currentUser=currentUser, exerciseName=exerciseName, dates=dates, weights=weights)
+

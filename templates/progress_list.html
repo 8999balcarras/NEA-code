@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Workout Tracker : Progress
+{% endblock %}
+
+{% block head %}
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/workoutstyles.css') }}">
+{% endblock%}
+
+{% block content %}
+    <h1>Welcome {{ currentUser }}</h1>
+    <h2>Select an exercise</h2>
+
+    <!-- Displays exercises in a list if there are any -->
+    {% if exercises %}
+        <ul>
+            {% for exercise in exercises %}
+                <li>
+                    <a href="{{ url_for('pages.exercise_progress', exerciseID = exercise[0]) }}">
+                        {{ exercise[1] }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    <!-- error message if there are no exercises with data -->
+    {% else %}
+        <p>You have not logged any exercise data yet.</p>
+    {% endif %}
+
+    {% for message in messages%}
+        <p class = "error">{{ message }}</p>
+    {% endfor %}
+    <a href="{{ url_for('pages.dashboard') }}">Back to Dashboard</a>
+{% endblock %}
+
