@@ -8,3 +8,62 @@ body{
 li a{
     text-decoration: none;
 }
+
+button,
+input[type="submit"],
+.btn {
+    background-color: var(--button-colour);
+    color: rgb(0, 0, 0);
+    border: 1px solid var(--button-colour);
+    border-radius: 7px;
+    padding: 8px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+button:hover,
+input[type="submit"]:hover,
+.btn:hover {
+    background-color: #fefefe;
+    border: 1px solid var(--border-colour);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+}
+
+button:active,
+input[type="submit"]:active,
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    color: #111827;
+    background-color: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}

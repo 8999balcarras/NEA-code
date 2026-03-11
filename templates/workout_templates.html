@@ -11,16 +11,19 @@
 {% block content %}
     <h1>Welcome {{ currentUser }}</h1>
     <h2>Workout Templates</h2>
-    <!-- lists the templates that the user has created -->
-    <ul>
+
+    <div class="templates-container">
         {% for t in templates %}
-            <li>{{ t[1] }}</li>
-            <!-- delete template button  -->
-            <form action="{{ url_for('pages.delete_template', templateID = t[0]) }}" method="POST">
-                <button type="submit">Delete</button>
-            </form>
+            <div class="template-row">
+                <span>{{ t[1] }}</span>
+
+                <form action="{{ url_for('pages.delete_template', templateID = t[0]) }}" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
+
     <a href="{{ url_for('pages.create_template') }}"><button type="button">Create New Template</button></a>
 {% endblock%}
 

@@ -14,22 +14,23 @@ Workout Tracker : Workout History
 
     <!-- If the user has logged workouts, displays them in a table with the name and time  -->
     {% if workouts %}
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-
-            {% for w in workouts %}
+        <div>
+            <table class = "history-table">
                 <tr>
-                    <td>{{ w[1] }}</td>
-                    <td>{{ w[2] }}</td>
-                    <td>{{ w[3][:5] }}</td> {# shows HH:MM #}
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Time</th>
                 </tr>
-            {% endfor %}
-        </table>
-        
+
+                {% for w in workouts %}
+                    <tr>
+                        <td>{{ w[1] }}</td>
+                        <td>{{ w[2] }}</td>
+                        <td>{{ w[3][:5] }}</td> {# shows HH:MM #}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div> 
     <!-- Displays a message if the user has not logged any workouts -->
     {% else %}
         <p>No workouts logged yet.</p>

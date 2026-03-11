@@ -14,15 +14,13 @@ Workout Tracker : Progress
 
     <!-- Displays exercises in a list if there are any -->
     {% if exercises %}
-        <ul>
-            {% for exercise in exercises %}
-                <li>
-                    <a href="{{ url_for('pages.exercise_progress', exerciseID = exercise[0]) }}">
-                        {{ exercise[1] }}
-                    </a>
-                </li>
+        <div class="list-container">
+            {% for ex in exercises %}
+                <a class="list-link" href="{{ url_for('pages.exercise_progress', exerciseID=ex[0]) }}">
+                    {{ ex[1] }}
+                </a>
             {% endfor %}
-        </ul>
+        </div>
     <!-- error message if there are no exercises with data -->
     {% else %}
         <p>You have not logged any exercise data yet.</p>

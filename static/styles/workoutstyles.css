@@ -56,7 +56,7 @@ body{
 
 .page-content{
     padding-top: 24px;
-    padding-left: 450px;
+    padding-left: 400px;
 }
 
 .page-title{
@@ -68,5 +68,87 @@ body{
 .page-subtitle{
     font-size: 22px;
     margin-bottom: 30px;
+}
+
+.history-table {
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.history-table td {
+    padding: 12px 100px 8px 0;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.history-table th {
+    font-weight: bold;
+    border-bottom: 2px solid #cccccc;
+    padding: 12px 100px 8px 0;
+    text-align: left;
+}
+
+.templates-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.template-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: white;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+.template-row form {
+    margin: 0;
+}
+
+.template-row span {
+    font-size: 16px;
+}
+
+.list-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+.list-link {
+    display: block;
+    width: 100%;
+    background: white;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.list-link:hover {
+    background-color: #f8fbff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+}
+
+.list-link:active {
+    transform: translateY(0);
+}
+
+.list-link-title {
+    margin: 0;
 }
 
