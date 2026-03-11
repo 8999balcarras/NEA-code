@@ -58,17 +58,17 @@ def dashboard():
             else:
                 timeSinceLastWorkout = f"{days} days"
         
-        # stores the returned rows in useageRows
-        usageRows = db.getExerciseUsageCounts(userID)
+    # stores the returned rows in useageRows
+    usageRows = db.getExerciseUsageCounts(userID)
 
-        # lists to store the exercise names and totals seperately
-        exerciseNames = []
-        usageCounts = []
+    # lists to store the exercise names and totals seperately
+    exerciseNames = []
+    usageCounts = []
 
-        # adds the data to the lists for the x axis and the bar heights
-        for row in usageRows:
-            exerciseNames.append(row[0])
-            usageCounts.append(row[1])
+    # adds the data to the lists for the x axis and the bar heights
+    for row in usageRows:
+        exerciseNames.append(row[0])
+        usageCounts.append(row[1])
 
     currentUser = session["currentUser"]
     return render_template("dashboard.html", currentUser = currentUser, active_page="dashboard", timeSinceLastWorkout = timeSinceLastWorkout, exerciseNames = exerciseNames, usageCounts = usageCounts)
