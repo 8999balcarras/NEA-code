@@ -23,7 +23,7 @@ form{
 
 input{
     padding: 5px;
-    border-color: var(--border-colour);
+    border-color: black;
     border-radius: 3px
 }
 
