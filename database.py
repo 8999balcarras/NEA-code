@@ -195,4 +195,15 @@ class DatabaseHandler:
                                 GROUP BY w.workoutID, w.workoutDate
                                 ORDER BY w.workoutDate, w.workoutID
                                 """, (userID, exerciseID)).fetchall()
-    
+        
+        
+    def getLastWorkoutDate(self, userID):
+        with self.connect() as conn:
+            row = conn.execute("""
+                                SELECT workoutDate, workoutTime
+                                FROM workouts
+                                WHERE userID = ?
+                                ORDER BY workoutDate DESC, workoutTime DESC
+                                LIMIT 1
+                                """, (userID,)).fetchone()
+            return row if row else None

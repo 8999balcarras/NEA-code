@@ -26,8 +26,42 @@ def signup():
 def dashboard():
     if not isAuthorised():
         return redirect(url_for("pages.signin"))
+    
+    # retreives the date and time of the users last workout
+    db = DatabaseHandler()
+    userID = db.getUserID(session["currentUser"])
+    lastWorkout = db.getLastWorkoutDate(userID)
+    timeSinceLastWorkout = None
+
+    # calculates the time that has passed since the last workout
+    if lastWorkout is not None:
+        workoutDate = lastWorkout[0]
+        workoutTime = lastWorkout[1]
+    
+        lastDateTime = datetime.strptime(f"{workoutDate} {workoutTime}", "%Y-%m-%d %H:%M:%S")
+        timeDifference = datetime.now() - lastDateTime
+
+        totalHours = int(timeDifference.total_seconds() // 3600)
+
+        # formats the time for the dashboard
+        if totalHours < 24:
+            if totalHours < 1:
+                timeSinceLastWorkout = "less than one hour"
+            elif totalHours == 1:
+                timeSinceLastWorkout = "1 hour"
+            else:
+                timeSinceLastWorkout = f"{totalHours} hours"
+        else:
+            days = totalHours // 24
+            if days == 1:
+                timeSinceLastWorkout = "1 day"
+            else:
+                timeSinceLastWorkout = f"{days} days"
+
+
+
     currentUser = session["currentUser"]
-    return render_template("dashboard.html", currentUser = currentUser, active_page="dashboard")
+    return render_template("dashboard.html", currentUser = currentUser, active_page="dashboard", timeSinceLastWorkout = timeSinceLastWorkout)
 
 @pages.route("/workout_templates")
 def workout_templates():

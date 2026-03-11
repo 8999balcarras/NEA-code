@@ -13,6 +13,13 @@
     <div class = "title">
         <h1>Welcome {{ currentUser }}</h1>
         <h2>Dashboard</h2>
+        <!-- Displays the time since the last workout -->
+        {% if timeSinceLastWorkout %}
+            <p>Time since last workout: {{ timeSinceLastWorkout }}</p>
+        <!-- Displays a message if no workouts have been logged -->
+        {% else %}
+            <p>No workouts logged yet.</p>
+        {% endif %}
     </div>
 </div>  
 {% endblock%}
