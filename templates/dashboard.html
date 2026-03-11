@@ -6,6 +6,7 @@
 
 {% block head %}
     <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/workoutstyles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock%}
 
 {% block content %}
@@ -20,7 +21,62 @@
         {% else %}
             <p>No workouts logged yet.</p>
         {% endif %}
-    </div>
+    <!-- checks if the list is not empty -->
+    {% if exerciseNames|length > 0 %}
+        <h3>Exercises Performed</h3>
+        <!-- creates a container for where the chart will be drawn -->
+        <div style="width: 75%; max-width: 600px;" padding-top: 500px;>
+            <canvas id="exerciseUsageChart"></canvas>
+        </div>
+
+        <!-- begins the javascript to create the chart -->
+        <script>
+            // converts the python lists to javascript arrays
+            const exerciseNames = {{ exerciseNames | tojson }};
+            const usageCounts = {{ usageCounts | tojson }};
+
+            // assigns the canvas to a variable
+            const exerciseUsageChart = document.getElementById("exerciseUsageChart");
+
+            // creates the bar chart using chart.js
+            new Chart(exerciseUsageChart, {
+                type: "bar",
+                data: {
+                    labels: exerciseNames,
+                    datasets: [{
+                        data: usageCounts
+                    }]
+                },
+                // configures the axis and the bar chart to be responsive
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display:false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Exercise"
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: "Times performed"
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
 </div>  
 {% endblock%}
 

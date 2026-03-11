@@ -207,3 +207,15 @@ class DatabaseHandler:
                                 LIMIT 1
                                 """, (userID,)).fetchone()
             return row if row else None
+        
+    def getExerciseUsageCounts(self, userID):
+    # counts how many times each exercise has been used by this user
+        with self.connect() as conn:
+            return conn.execute("""
+                SELECT e.exerciseName, COUNT(*) as timesUsed
+                FROM workoutData wd
+                JOIN workouts w ON wd.workoutID = w.workoutID
+                JOIN exercises e ON wd.exerciseID = e.exerciseID
+                WHERE w.userID = ?
+                GROUP BY e.exerciseID, e.exerciseName
+                """, (userID,)).fetchall()
