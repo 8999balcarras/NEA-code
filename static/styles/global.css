@@ -1,6 +1,10 @@
 body{
+    margin: 0;
     background-color: var(--main-bg-colour);
     color: var(--main-fg-colour);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Inter';
 }
 
+li a{
+    text-decoration: none;
+}

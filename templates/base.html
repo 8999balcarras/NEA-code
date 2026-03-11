@@ -7,12 +7,43 @@
     <title>{% block title %}Workout Tracker{% endblock %}</title>
     <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/colourScheme.css') }}">
     <link rel = "stylesheet" href = "{{ url_for('static', filename = 'styles/global.css') }}">
+    <link rel = "preconnect" href = "https://fonts.googleapis.com">
+    <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
+    <link href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel = "stylesheet">
     <!-- Head block for page specific CSS -->
     {% block head %}{% endblock %}
 </head>
 <body>
-    <!-- Main content block, replaced by content from child templates  -->
-    {% block content %}
-    {% endblock %}
+    <!-- checks if the user is signed in -->
+    {% if session.get("currentUser") %}
+        <!-- Defines the top bar info -->
+        <header class="topbar">
+            <div class="websiteName">Workout Tracker</div>
+            <div class="top-user">{{ session["currentUser"] }}</div>
+        </header>
+
+        <!-- layout for the main logged in content -->
+        <div class="app-layout">
+            <aside class="sidebar">
+                <a class="{% if active_page == 'dashboard' %}active{% endif %}" href="{{ url_for('pages.dashboard') }}">Dashboard</a>
+                <a class="{% if active_page == 'workout_templates' %}active{% endif %}" href="{{ url_for('pages.workout_templates') }}">View Templates</a>
+                <a class="{% if active_page == 'create_template' %}active{% endif %}" href="{{ url_for('pages.create_template') }}">Create Template</a>
+                <a class="{% if active_page == 'workouts' %}active{% endif %}" href="{{ url_for('pages.workouts') }}">Start Workout</a>
+                <a class="{% if active_page == 'progress' %}active{% endif %}" href="{{ url_for('pages.progress_list') }}">Workout Progress</a>
+                <a class="{% if active_page == 'workout_history' %}active{% endif %}" href="{{ url_for('pages.workout_history') }}">Workout History</a>
+                <a class="signout-link" href="{{ url_for('auth.signOut') }}">Sign Out</a>
+            </aside>
+            
+            <!-- Main page content -->
+            <main class="page-content">
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    {% if session.get("currentUser") %}
+            </main>
+        </div>
+    {% endif %}
 </body>
 </html>
+

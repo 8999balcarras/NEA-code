@@ -4,3 +4,82 @@
     font-weight: bolder;
     color: var(--error-message-colour)
 }
+
+body{
+    margin: 0;
+}
+
+.topbar{
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 2px solid var(--border-colour);
+    font-weight: bold;
+    background-color: var(--topbar-colour);
+}
+
+.websiteName,
+.top-user{
+    font-size: 22px;
+}
+
+.app-layout{
+    display: grid;
+    grid-template-columns: 255px 1fr;
+    min-height: calc(100vh - 54px);
+}
+
+.sidebar{
+    border-right: 2px solid var(--border-colour);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sidebar a{
+    text-decoration: none;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.sidebar a.active{
+    color: #103f89;
+}
+
+.signout-link{
+    margin-top: auto;
+}
+
+.page-content{
+    padding-top: 24px;
+    padding-left: 450px;
+}
+
+.page-title{
+    font-size: 36px;
+    font-weight: normal;
+    margin: 0 0 30px 0;
+}
+
+.page-subtitle{
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.template-list{
+    padding-left: 28px;
+}
+
+.template-list li{
+    margin-bottom: 10px;
+}
+
+.template-list a{
+    color: #5c7f7d;
+    font-size: 18px;
+}
+
