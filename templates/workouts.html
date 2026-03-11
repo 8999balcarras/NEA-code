@@ -18,8 +18,14 @@
             <li><a href="{{ url_for('pages.log_workout', templateID = t[0]) }}">{{ t[1] }}</a></li>
         {% endfor %}
     </ul>
-    
-    <div><a href = "{{ url_for('pages.dashboard') }}">Back to Dashboard</a></div>
+    <!-- error message if there are no templates -->
+    {% if not templates %}
+        <p>You have not created any workout templates yet.</p>
+    {% endif %}
+
+    {% for message in messages%}
+        <p class = "error">{{ message }}</p>
+    {% endfor %}
 
 {% endblock%}
 

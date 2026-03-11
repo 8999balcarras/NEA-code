@@ -14,21 +14,6 @@
         <h1>Welcome {{ currentUser }}</h1>
         <h2>Dashboard</h2>
     </div>
-    <div>
-        <a href = "{{ url_for('pages.workout_templates') }}">Workout Templates</a>
-    </div>
-    <div>
-        <a href = "{{ url_for('pages.workouts') }}">Workouts</a>
-    </div>
-    <div>
-        <a href = "{{ url_for('pages.workout_history') }}">Workout History</a>
-    </div>
-    <div>
-        <a href = "auth/signout">Sign out</a>
-    </div>
-    <div>
-        <a href="{{ url_for('pages.progress_list') }}">Exercise Progress</a>
-    </div>
 </div>  
 {% endblock%}
 
