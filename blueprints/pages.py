@@ -27,7 +27,7 @@ def dashboard():
     if not isAuthorised():
         return redirect(url_for("pages.signin"))
     currentUser = session["currentUser"]
-    return render_template("dashboard.html", currentUser = currentUser)
+    return render_template("dashboard.html", currentUser = currentUser, active_page="dashboard")
 
 @pages.route("/workout_templates")
 def workout_templates():
@@ -42,7 +42,7 @@ def workout_templates():
 
     #renders the workout templates page with the user's templates
     currentUser = session["currentUser"]
-    return render_template("workout_templates.html", currentUser = currentUser, templates = templates)
+    return render_template("workout_templates.html", currentUser = currentUser, templates = templates, active_page="workout_templates")
 
 #handles the create template page and saving the template 
 @pages.route("/create_template", methods=["GET", "POST"])
@@ -76,7 +76,7 @@ def create_template():
         return redirect(url_for("pages.workout_templates"))
     
     messages = get_flashed_messages()
-    return render_template('create_template.html', exercises=exercises, messages = messages)
+    return render_template('create_template.html', exercises=exercises, messages = messages,active_page="create_template")
 
 @pages.route("/workouts")
 def workouts():
@@ -89,7 +89,7 @@ def workouts():
     templates = db.getUserTemplates(userID)
 
     currentUser = session["currentUser"]
-    return render_template("workouts.html", currentUser = currentUser, templates = templates)
+    return render_template("workouts.html", currentUser = currentUser, templates = templates, active_page="workouts")
 
 @pages.route("/log_workout/<int:templateID>", methods=["GET", "POST"])
 def log_workout(templateID):
@@ -173,7 +173,7 @@ def workout_history():
     workouts = db.getUserWorkouts(userID)
 
     currentUser = session["currentUser"]
-    return render_template("workout_history.html", currentUser = currentUser, workouts = workouts)
+    return render_template("workout_history.html", currentUser = currentUser, workouts = workouts, active_page="workout_history")
 
 @pages.route("/delete_template/<int:templateID>", methods=["POST"])
 def delete_template(templateID):
@@ -197,7 +197,7 @@ def progress_list():
 
     messages = get_flashed_messages()
     currentUser = session["currentUser"]
-    return render_template("progress_list.html", currentUser = currentUser, exercises = exercises, messages = messages)
+    return render_template("progress_list.html", currentUser = currentUser, exercises = exercises, messages = messages, active_page="progress")
 
 @pages.route("/progress/<int:exerciseID>")
 def exercise_progress(exerciseID):
