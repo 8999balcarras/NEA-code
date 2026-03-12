@@ -8,8 +8,19 @@ defaultExercises = [
     ("Lat Pulldown", "Back", "latpulldowndescription"),
     ("Pull Up", "Back", "pullupdescription"),
     ("Seated Row", "Back", "seatedrowdescription"),
-    ("barbell Squat", "Legs", "squatdescription"),
+    ("Barbell Squat", "Legs", "squatdescription"),
     ("Leg Extension ", "Legs", "legextensiondescription"),
     ("Bicep Curl", "Biceps", "bicepcurldescription"),
+    ("Hammer Curl", "Biceps", "hammercurldescription"),
+    ("Tricep Pushdown", "Triceps", "triceppushdowndescription"),
+    ("Tricep Extension", "Triceps", "tricepextensiondescription"),
+    ("Deadlift", "Legs", "deadliftdescription"),
+    ("Barbell Row", "Back", "barbellrowdescription"),
+    ("Leg Curl", "Legs", "legcurldescription"),
+    ("Calf Raise", "Legs", "calfraisedescription"),
+    ("Dips", "Triceps", "dipsdescription"),
+    ("Hip Thrust", "Glutes", "hipthrustdescription"),
+    ("Leg Press", "Legs", "legpressdescription"),
 ]
+
 
